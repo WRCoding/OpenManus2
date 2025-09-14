@@ -76,7 +76,7 @@ What should I do next to achieve my goal?
 When you see [Current state starts here], focus on the following:
 - Current URL and page title{url_placeholder}
 - Available tabs{tabs_placeholder}
-- Interactive elements and their indices
+- Interactive elements and their indices: {interactive_elements}
 - Content above{content_above_placeholder} or below{content_below_placeholder} the viewport (if indicated)
 - Any action results or errors{results_placeholder}
 

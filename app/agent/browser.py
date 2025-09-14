@@ -20,7 +20,7 @@ class BrowserContextHelper:
         self.agent = agent
         self._current_base64_image: Optional[str] = None
 
-    async def get_browser_state(self) -> Optional[dict]:
+    async def  get_browser_state(self) -> Optional[dict]:
         browser_tool = self.agent.available_tools.get_tool(BrowserUseTool().name)
         if not browser_tool or not hasattr(browser_tool, "get_current_state"):
             logger.warning("BrowserUseTool not found or doesn't have get_current_state")
@@ -52,6 +52,10 @@ class BrowserContextHelper:
                 tabs_info = f"\n   {len(tabs)} tab(s) available"
             pixels_above = browser_state.get("pixels_above", 0)
             pixels_below = browser_state.get("pixels_below", 0)
+            scroll_info = browser_state.get("scroll_info")
+            if scroll_info:
+                pixels_above = scroll_info.get("pixels_above", 0)
+                pixels_below = scroll_info.get("pixels_below", 0)
             if pixels_above > 0:
                 content_above_info = f" ({pixels_above} pixels)"
             if pixels_below > 0:
@@ -70,6 +74,7 @@ class BrowserContextHelper:
             tabs_placeholder=tabs_info,
             content_above_placeholder=content_above_info,
             content_below_placeholder=content_below_info,
+            interactive_elements=browser_state.get("interactive_elements", []),
             results_placeholder=results_info,
         )
 

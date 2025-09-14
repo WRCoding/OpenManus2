@@ -2,6 +2,7 @@ import asyncio
 import json
 from typing import Any, List, Optional, Union
 
+from openai import OpenAIError
 from pydantic import Field
 
 from app.agent.react import ReActAgent
@@ -41,7 +42,6 @@ class ToolCallAgent(ReActAgent):
         if self.next_step_prompt:
             user_msg = Message.user_message(self.next_step_prompt)
             self.messages += [user_msg]
-
         try:
             # Get response with tool options
             response = await self.llm.ask_tool(
@@ -56,6 +56,8 @@ class ToolCallAgent(ReActAgent):
             )
         except ValueError:
             raise
+        except OpenAIError as oe:
+            logger.warning(oe)
         except Exception as e:
             # Check if this is a RetryError containing TokenLimitExceeded
             if hasattr(e, "__cause__") and isinstance(e.__cause__, TokenLimitExceeded):

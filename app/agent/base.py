@@ -128,6 +128,7 @@ class BaseAgent(BaseModel, ABC):
         if self.state != AgentState.IDLE:
             raise RuntimeError(f"Cannot run agent from state: {self.state}")
 
+        # 在这里把用户的问题添加到memory里,memory实际上是List[Message]
         if request:
             self.update_memory("user", request)
 

@@ -121,6 +121,7 @@ class PlanningFlow(BaseFlow):
                 # Execute current step with appropriate agent
                 step_type = step_info.get("type") if step_info else None
                 executor = self.get_executor(step_type)
+                logger.info(f"executor: ${executor.name}, current_step_index: ${self.current_step_index}, step_type: {step_type}, step_info: ${step_info}")
                 step_result = await self._execute_step(executor, step_info)
                 result += step_result + "\n"
 
@@ -149,6 +150,7 @@ class PlanningFlow(BaseFlow):
                     {
                         "name": key.upper(),
                         "description": self.agents[key].description,
+                        "available_tools": json.dumps(self.agents[key].available_tools.to_params()),
                     }
                 )
         if len(agents_description) > 1:

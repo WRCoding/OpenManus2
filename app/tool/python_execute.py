@@ -16,7 +16,7 @@ class PythonExecute(BaseTool):
         "properties": {
             "code": {
                 "type": "string",
-                "description": "The Python code to execute.",
+                "description": "Python code to execute. Note: Python code must be returned strictly in an executable format, that is, the indented format must be correct",
             },
         },
         "required": ["code"],

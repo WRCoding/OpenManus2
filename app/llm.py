@@ -440,6 +440,8 @@ class LLM:
             collected_messages = []
             completion_text = ""
             async for chunk in response:
+                if not chunk.choices:
+                    continue
                 chunk_message = chunk.choices[0].delta.content or ""
                 collected_messages.append(chunk_message)
                 completion_text += chunk_message
@@ -740,9 +742,9 @@ class LLM:
                 return None
 
             # Update token counts
-            self.update_token_count(
-                response.usage.prompt_tokens, response.usage.completion_tokens
-            )
+            # self.update_token_count(
+            #     response.usage.prompt_tokens, response.usage.completion_tokens
+            # )
 
             return response.choices[0].message
 
